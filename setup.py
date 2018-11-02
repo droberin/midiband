@@ -9,5 +9,5 @@ setup(
     author='DRoBeR',
     author_email='drober@gmail.com',
     description='MIDIBand - Music hub over the net',
-    requires='zeroconf, netifaces, mido'
+    install_requires=('zeroconf', 'netifaces', 'mido', 'zeroconf')
 )
