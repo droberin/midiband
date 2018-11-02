@@ -35,7 +35,6 @@ class Broadcaster:
 class Server:
     listen_port = None
     listen_address = os.environ.get('MIDIBAND_SERVER_ADDRESS', None)
-    broadcaster = None
 
     def __init__(self, listen_address=None, listen_port=65200):
         if not listen_address:
@@ -58,6 +57,7 @@ class Server:
                 try:
                     with sockets.PortServer(hostname, portnumber) as server:
                         for message in server:
+                            # This messages must be re-sent to a synth later... ;)
                             logging.info("[{}]: {}".format(hostname, message))
                 except TypeError:
                     logging.warning("A message was received with no data or a connection went down abruptly")
@@ -65,7 +65,7 @@ class Server:
             logging.critical("{}".format(e))
             pass
         except KeyboardInterrupt:
-            self.broadcaster.finish()
+            logging.info("Finishing signal received")
 
     @staticmethod
     def __try_guessing_listening_address():
